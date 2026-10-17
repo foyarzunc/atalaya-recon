@@ -1,0 +1,6 @@
+pydantic>=2.10.0
+pydantic-settings>=2.11.0
+python-dotenv>=1.0.0
+requests>=2.32.0
+python-nmap>=0.7.0
+pyfiglet>=0.8.0
