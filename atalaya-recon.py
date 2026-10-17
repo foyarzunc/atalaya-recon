@@ -204,11 +204,15 @@ def format_geolocation(data: dict) -> None:
         print_field("Status", "Failed to retrieve geolocation")
         return
     
+    lat = data.get('lat', 'N/A')
+    lon = data.get('lon', 'N/A')
+    
     print_field("Country", f"{data.get('country', 'N/A')} ({data.get('countryCode', 'N/A')})")
     print_field("Region", f"{data.get('regionName', 'N/A')} ({data.get('region', 'N/A')})")
     print_field("City", data.get('city', 'N/A'))
     print_field("ZIP", data.get('zip', 'N/A'))
-    print_field("Coordinates", f"{data.get('lat', 'N/A')}, {data.get('lon', 'N/A')}")
+    print_field("Coordinates", f"{lat}, {lon}")
+    print_field("Google Maps", f"https://www.google.com/maps?q={lat},{lon}")
     print_field("ISP", data.get('isp', 'N/A'))
     print_field("Organization", data.get('org', 'N/A'))
     print_field("AS", data.get('as', 'N/A'))
