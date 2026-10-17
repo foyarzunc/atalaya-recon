@@ -39,7 +39,7 @@ def print_banner() -> None:
     ║  {BOLD}{YELLOW}#########    ##    ######### ##       #########    ##    ######### {CYAN}              ║
     ║  {BOLD}{YELLOW}##     ##    ##    ##     ## ##       ##     ##    ##    ##     ## {CYAN}              ║
     ║  {BOLD}{YELLOW}##     ##    ##    ##     ## ######## ##     ##    ##    ##     ## {CYAN}              ║
-    ║                                                                                   ║   
+    ║                                                                                   ║
     ║  {BOLD}{GREEN}  ########  ########  ######   #######  ##    ## {CYAN}                                ║
     ║  {BOLD}{GREEN}  ##     ## ##       ##    ## ##     ## ###   ## {CYAN}                                ║
     ║  {BOLD}{GREEN}  ##     ## ##       ##       ##     ## ####  ## {CYAN}                                ║
@@ -54,6 +54,8 @@ def print_banner() -> None:
 {RESET}
 """
     print(banner)
+    print(f"{CYAN}    Contact: {BOLD}felipe.oyarzun@proton.me{RESET}")
+    print()
 
 
 AVAILABLE_PROVIDERS = {
