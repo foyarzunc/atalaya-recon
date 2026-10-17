@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Optional
 
 from modules.nmap_mod import nmap_mod, ScanMode
-from modules.settings import get_settings
+from modules.settings import get_settings, verify_api_keys
 from providers.base import ProviderError
 from providers.shodan import Shodan
 from providers.virustotal import VirusTotal
@@ -662,6 +662,7 @@ Examples:
     print_banner()
     
     logger = get_settings().setup_logger()
+    verify_api_keys()
     for handler in logger.handlers:
         handler.setLevel(100)
     
