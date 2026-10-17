@@ -9,7 +9,7 @@ class IfconfigMe(BaseProvider):
         requires_api_key=False,
         is_free=True,
         api_key_env_var=None,
-        description="Informacion de interfaz de red"
+        description="Network interface information"
     )
 
     def __init__(self, ip_address):

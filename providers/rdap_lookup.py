@@ -11,7 +11,7 @@ from providers.base import BaseProvider, ProviderInfo, ProviderError
 
 
 class RDAPError(Exception):
-    """Fallo al consultar RDAP (bootstrap, red, rate limit, respuesta inválida)."""
+    """RDAP query failed (bootstrap, network, rate limit, invalid response)."""
 
 
 class RDAPLookup(BaseProvider):
@@ -20,7 +20,7 @@ class RDAPLookup(BaseProvider):
         requires_api_key=False,
         is_free=True,
         api_key_env_var=None,
-        description="WHOIS moderno - informacion de registro de IPs (estandar público)"
+        description="WHOIS modern - IP registration info (public standard)"
     )
 
     BOOTSTRAP_URLS = {4: "https://data.iana.org/rdap/ipv4.json", 6: "https://data.iana.org/rdap/ipv6.json"}
@@ -36,7 +36,7 @@ class RDAPLookup(BaseProvider):
         self.logger = get_settings().setup_logger()
         ip = ipaddress.ip_address(str(ip_address).strip())  # ValueError si no es una IP
         if not ip.is_global:
-            raise RDAPError(f"{ip} no es una IP pública; no está en ningún registro RDAP")
+            raise RDAPError(f"{ip} is not a public IP; not in any RDAP registry")
         self._ip = ip
         self.ip_address = str(ip)
         self.server = None
@@ -57,7 +57,7 @@ class RDAPLookup(BaseProvider):
             try:
                 response = requests.get(url, headers=headers, timeout=self.TIMEOUT, allow_redirects=False)
             except requests.exceptions.RequestException as e:
-                raise RDAPError(f"Error de red consultando RDAP ({type(e).__name__})") from None
+                raise RDAPError(f"Network error querying RDAP ({type(e).__name__})") from None
             if response.status_code in (301, 302, 303, 307, 308):
                 url = urljoin(url, response.headers.get("Location", ""))
                 if not url.startswith("https://"):
@@ -74,11 +74,11 @@ class RDAPLookup(BaseProvider):
             if time.time() - cache_file.stat().st_mtime < self.BOOTSTRAP_TTL:
                 return json.loads(cache_file.read_text(encoding="utf-8"))
         except (OSError, ValueError):
-            pass  # sin caché o caché corrupta: se vuelve a descargar
+            pass  # no cache or corrupted cache: redownloading
 
         response = self._get(self.BOOTSTRAP_URLS[version])
         if not response.ok:
-            raise RDAPError(f"No pude descargar el bootstrap de IANA (HTTP {response.status_code})")
+            raise RDAPError(f"Could not download IANA bootstrap (HTTP {response.status_code})")
         try:
             data = response.json()
         except ValueError:
@@ -108,11 +108,11 @@ class RDAPLookup(BaseProvider):
             raise RDAPError(f"IANA no indica ningún servidor RDAP para {self.ip_address}")
         return best_url if best_url.endswith("/") else best_url + "/"
 
-    # ------------------------------------------------------------- consultas
+    # ------------------------------------------------------------- queries
     def get_ip_info(self):
         base = self._find_server()
         self.server = base
-        self.logger.debug(f"Consultando {self.ip_address} en {base}")
+        self.logger.debug(f"Querying {self.ip_address} at {base}")
         response = self._get(f"{base}ip/{self.ip_address}", accept="application/rdap+json")
         if response.status_code == 404:
             return None
@@ -128,7 +128,7 @@ class RDAPLookup(BaseProvider):
     # --------------------------------------------------------------- resumen
     @staticmethod
     def _clean(value, limit=200):
-        """Los registros los escribe cada titular: se quitan caracteres de control y se acota el largo."""
+        """Records are written by each registrant: remove control characters and limit length."""
         text = "".join(ch if ch.isprintable() else " " for ch in str(value if value is not None else ""))
         return " ".join(text.split())[:limit]
 

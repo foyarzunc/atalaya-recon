@@ -16,7 +16,7 @@ class ProviderError(Exception):
     def __init__(self, provider_info: ProviderInfo, message: str):
         self.provider_info = provider_info
         free_text = "gratis" if provider_info.is_free else "de pago"
-        key_text = f"Se requiere API key ({free_text})" if provider_info.requires_api_key else "No requiere API key"
+        key_text = f"API key required ({free_text})" if provider_info.requires_api_key else "No API key required"
         super().__init__(f"[{provider_info.name}] {key_text}: {message}")
         self.provider_name = provider_info.name
         self.requires_api_key = provider_info.requires_api_key
