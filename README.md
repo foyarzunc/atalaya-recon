@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # atalaya-recon
 Atalaya-recon is an OSINT reconnaissance tool that allows you to recover intelligence information about IP addresses by simultaneously querying multiple external providers
 =======
@@ -211,4 +210,3 @@ MIT License - see LICENSE file for details.
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
->>>>>>> 2e382a2 (First commit: Atalaya Recon)
