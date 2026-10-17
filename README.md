@@ -87,6 +87,15 @@ APIKEY_OTX=your_alienvault_otx_api_key
 APIKEY_IP_ABUSE_DB=your_abuseipdb_api_key
 ```
 
+**Get your API keys:**
+
+| Provider | Free Tier | Registration Link |
+|----------|-----------|------------------|
+| Shodan | Yes | https://account.shodan.io/register |
+| VirusTotal | Yes | https://www.virustotal.com/gui/join-us |
+| AlienVault OTX | Yes | https://otx.alienvault.com/api |
+| AbuseIPDB | Yes | https://www.abuseipdb.com/account/api |
+
 > **Note**: Some providers work without API keys (RDAP, ip-api, ifconfig.me). API keys are required for Shodan, VirusTotal, AlienVault OTX, and AbuseIPDB for full functionality.
 
 ## Usage
